@@ -6,6 +6,7 @@
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Components/ActorComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/PrimitiveComponent.h"
 #include "Grabber.generated.h"
 
 
@@ -33,6 +34,7 @@ private:
 	float Reach = 100.f;
 	UPhysicsHandleComponent *PhysicsHandle = nullptr;
 	UInputComponent *InputComponent = nullptr;
+	
 
 
 	void Grab();
@@ -46,4 +48,5 @@ private:
 	// Function GetFirstPhysiscBodyInReach have return the first Actor within reach with a physics body
 
 	FHitResult GetFirstPhysicsBodyInReach();
+	FVector LineTraceEnd();
 };

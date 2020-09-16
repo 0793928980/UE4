@@ -4,6 +4,7 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "CollisionQueryParams.h"
+#include "Components/PrimitiveComponent.h"
 #include "Grabber.h"
 
 // Sets default values for this component's properties
@@ -31,7 +32,7 @@ void UGrabber::SetupInputComponent()
 {
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 
-	if(InputComponent )
+	if(InputComponent)
 	{
 		InputComponent->BindAction("Grabber",IE_Pressed,this,&UGrabber::Grab);
 		InputComponent->BindAction("Grabber",IE_Released,this,&UGrabber::Release);
@@ -62,13 +63,25 @@ void UGrabber::FindThePhysicsHandle()
 void UGrabber::Grab()
 {
 
-	UE_LOG(LogTemp,Warning, TEXT("Grab a press "));
-	//TODO to only raycast when key is press                       ư
 
-	// Try and Reach any Actors with a physics body 
+	FVector LineTraceEnd1 = LineTraceEnd();
+
+	UE_LOG(LogTemp,Warning, TEXT("Grab a press "));
+	FHitResult HitResult = GetFirstPhysicsBodyInReach();                   
+	UPrimitiveComponent *ComponentGrab = HitResult.GetComponent();
+
 	//if we hit something then attach a physics handle 
 
-	//To Do attach the physics handle 
+	if(HitResult.GetActor())
+	{
+		//To Do attach the physics handle 
+		PhysicsHandle->GrabComponentAtLocation(ComponentGrab,NAME_None,LineTraceEnd1);
+	}
+	
+	
+		
+
+
 }
 
 
@@ -77,27 +90,45 @@ void UGrabber::Release()
 	UE_LOG(LogTemp,Warning, TEXT("Grab a Released "));
 
 	//To Do will remove/release Physics handle 
+	PhysicsHandle->ReleaseComponent();
 
 
 }
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	//If Physics handle is attach
-	if(FindThePhysicsHandle())
-	{
-
-		//Move the object we are holding 
-		
-
-	}
-	GetFirstPhysicsBodyInReach();
-
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
+	FVector LTE = LineTraceEnd();
+	//If Physics handle is attach
+	if(PhysicsHandle->GrabbedComponent)
+		//Move the object we are holding 
+	{
+		PhysicsHandle->SetTargetLocation(LTE);
+	}
+	
+
 
 }
 
-FHitResult UGrabber::GetFirstPhysicsBody()
+FVector UGrabber::LineTraceEnd()
+{
+
+	FVector PlayerPointLocation;
+	FRotator  PlayerPointRotation;
+	
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+	PlayerPointLocation,
+ 	PlayerPointRotation
+	);
+	FVector LineTraceEnd = PlayerPointLocation + PlayerPointRotation.Vector()*Reach;
+
+	return LineTraceEnd;
+	
+}
+
+
+FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 {
 
 	FVector PlayerPointLocation;
@@ -107,12 +138,6 @@ FHitResult UGrabber::GetFirstPhysicsBody()
 	PlayerPointLocation,
  	PlayerPointRotation
 	);
-		
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-
-	
-
 	FVector LineTraceEnd = PlayerPointLocation + PlayerPointRotation.Vector()*Reach;
 	//Ray-cast out to a certain distance (Reach)
 	FHitResult Hits;
@@ -131,7 +156,7 @@ FHitResult UGrabber::GetFirstPhysicsBody()
 		UE_LOG(LogTemp,Error,TEXT("Line Trace is Hit: %s"),*ActorHit->GetName());
 	}
 	
-	//Logging out to test 
+	return Hits;
 
 
 }
