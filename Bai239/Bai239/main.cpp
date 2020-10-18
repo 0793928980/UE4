@@ -69,19 +69,19 @@ void DemSoNTPhanbiet(int a[], int n)
     int dem=0;
     for(i=0;i<n;i++)
     {
-        
         check=KIBiTrung(a, n, i);
-        if(check==1)
-        {
-            if(KTNT(a[i])==1)
-            {
-                dem++;
-            }
-        }
+       if(check==1)
+       {
+          if(KTNT(a[i])==1)
+          {
+              dem++;
+          }
+       }
     }
     cout<<"Co "<<dem<<" so nguyen to phan biet\n";
     
 }
+
 
 
 int main(int argc, const char * argv[]) {
@@ -98,5 +98,6 @@ int main(int argc, const char * argv[]) {
     In(a, n);
     DemSoNTPhanbiet(a, n);
     DemSoNTPb(a, n);
+    
     return 0;
 }

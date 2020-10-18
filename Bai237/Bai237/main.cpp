@@ -31,14 +31,14 @@ void In(int a[], int n)
         cout<<a[i]<<" ";
     }
 }
-int Tansuatxuathienmax(int a[], int n)
+
+int DemSolanXuatHienMax(int a[], int n)
 {
-    int max=1;
-    
     int i,j;
+    int max=1;
     for(i=0;i<n;i++)
     {
-      int  dem=1;//demtaivitri i=0;
+        int dem=1;
         for(j=i+1;j<n;j++)
         {
             if(a[i]==a[j])
@@ -46,19 +46,17 @@ int Tansuatxuathienmax(int a[], int n)
                 dem++;
             }
         }
-        if(dem>max)
+        if(max<dem)
         {
             max=dem;
         }
     }
     return max;
 }
-
-int Kiemtrabitrung(int a[], int n ,int vitri)
+int Timvitritrung(int a[], int n,int vitri)
 {
     int i;
-    
-    for(i=vitri-1;i>=0;i--)
+    for(i=vitri-1;i>0;i--)
     {
         if(a[i]==a[vitri])
         {
@@ -67,12 +65,28 @@ int Kiemtrabitrung(int a[], int n ,int vitri)
     }
     return 1;
 }
+int TimvitriTrung(int a[], int n)
+{
+    int i,j;
 
-int DemSotansuatxuathien(int a[], int n,int vitri)
+    for(i=1;i<=n;i++)
+    {
+        
+        for(j=i-1;j>=0;j--)
+        {
+            if(a[i]==a[j])
+            {
+                return 0;
+                break;
+            }
+        }
+    }
+    return 1;
+}
+int DemTanSuatXuatHien(int a[], int n,int vitri)
 {
     int i;
     int dem=1;
-    
     for(i=vitri+1;i<n;i++)
     {
         if(a[i]==a[vitri])
@@ -82,47 +96,48 @@ int DemSotansuatxuathien(int a[], int n,int vitri)
     }
     return dem;
 }
-
-void LietKeGiatriXuatHienNhieuNhat(int a[], int n)
+void LietKeTanSuatXuatHienNhieuNhat(int a[], int n)
 {
     int i;
-    int check;
-    int dem;
-    int demxuathiennhieunhat = Tansuatxuathienmax(a, n);
+    int DemSolanXuatHienNhieuNhat=DemSolanXuatHienMax(a, n);
+    
+    
     for(i=0;i<n;i++)
     {
-        check=Kiemtrabitrung(a, n, i);
-        
-            if(check==1)
-            {
-                dem=DemSotansuatxuathien(a, n, i);
-               if(demxuathiennhieunhat==dem)
-               {
-                   cout<<"\nPhan tu xuat hien nhieu nhat la: "<<a[i];
-               }
-            }
-    }
-    cout<<"So lan xuat hien tan suat: "<<Tansuatxuathienmax(a, n);
-}
-void LietKeCacSoXuatHienNhieuNhat(int a[], int n)
-{
-    int TanSuatMax = Tansuatxuathienmax(a, n);
-    for (int i = 0; i < n; i++)
-    {
-        int CheckTrung = Kiemtrabitrung(a, n, i);
-        if (CheckTrung == 1)  // chỉ xử lý khi không trùng
+        int kt=Timvitritrung(a, n, i);
+        if(kt==1)
         {
-            int TanSuat = DemSotansuatxuathien(a, n, i);
-            //printf("\nPhan tu %d xuat hien %d lan", a[i], TanSuat);
-
-            if (TanSuat == TanSuatMax)
+            int Demtansuatxuathien=DemTanSuatXuatHien(a, n,i);
+            if(DemSolanXuatHienNhieuNhat==Demtansuatxuathien)
             {
-                printf("\nPhan tu xuat hien nhieu nhat la %d", a[i]);
+                cout<<a[i]<<" ";
+            }
+        }
+            
+    }
+}
+ void TimGiatriXuatHienNhieuNhat(int a[], int n)
+{
+    int i;
+    int DemsolanxuathienNhieunhat=DemSolanXuatHienMax(a, n);
+    
+    for(i=0;i<n;i++)
+    {
+        int kt=Timvitritrung(a, n, i);
+        if(kt==1)
+        {
+            int Demtansuatxuathien=DemTanSuatXuatHien(a, n, i);
+            if(DemsolanxuathienNhieunhat==Demtansuatxuathien)
+            {
+               cout<<"\nGia tri xuat hien nhieu nhat la: "<<a[i];
             }
         }
     }
-    printf("\n=> So lan xuat hien la: %d", TanSuatMax);
 }
+   
+
+
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
@@ -135,6 +150,9 @@ int main(int argc, const char * argv[]) {
        int a[100];
        Nhap(a, n);
        In(a, n);
-    LietKeCacSoXuatHienNhieuNhat(a, n);
+    cout<<"\nCac Gia tri xuat hien nhieu nhat ";
+    LietKeTanSuatXuatHienNhieuNhat(a, n);
+    TimGiatriXuatHienNhieuNhat(a, n);
+    
     return 0;
 }

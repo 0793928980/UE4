@@ -57,6 +57,24 @@ void SapXepTangDan(int a[], int n)
 
 void ChenPhanTuXvaoArrayTang(int a[], int &n, int x)
 {
+    int i;
+    int k;
+    for(i=n-1;i>-1;i--)
+    {
+        if(x>a[i])
+        {
+            k=i+1;
+            break;
+        }else{
+            k=0;
+        }
+    }
+    n++;
+    for(i=n-1;i>k;i--)
+    {
+        a[i]=a[i-1];
+    }
+    a[k]=x;
     
 }
 int main(int argc, const char * argv[]) {

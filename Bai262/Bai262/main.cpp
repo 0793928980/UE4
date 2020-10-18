@@ -41,10 +41,37 @@ void HoanVi(int &a, int &b)
 
 void SapXepChanLeTangDan(int a[], int n)
 {
+    int i,j;
     
+    for(i=0;i<n;i++)
+    {
+        if(a[i]>0)
+        {
+            for(j=i+1;j<n;j++)
+            {
+                if(((a[i]%2==0 && a[j]%2==0) || (a[i]%2!=0 && a[j]%2!=0)) && a[i]>a[j])
+                {
+                    HoanVi(a[i], a[j]);
+                }
+            }
+        
+            
+        }
+    }
 }
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
+    int n;
+
+          cout<<"nhap N: \n";
+          cin>>n;
+
+          int a[100];
+          Nhap(a, n);
+          In(a, n);
+    SapXepChanLeTangDan(a, n);
+    cout<<"\nMang Chan le Tang Dan\n";
+    In(a, n);
     return 0;
 }

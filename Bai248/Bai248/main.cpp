@@ -37,6 +37,7 @@ void KiemTraMangTangDan(int a[], int n)
     int kt=0;
     for(i=0;i<n;i++)
     {
+        
         if(a[i]<a[i+1])
         {
             kt=1;
@@ -55,7 +56,18 @@ void KiemTraMangTangDan(int a[], int n)
     }
 }
 
-
+int TimVitriTrung(int a[], int n, int vitri)
+{
+    int i;
+    for(i=vitri-1;i>n;i--)
+    {
+        if(a[vitri]==a[i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";

@@ -51,12 +51,34 @@ int DemSoPTtrung(int a[], int n, int vitri)
     int dem=1;
     for(i=vitri+1;i<n;i++)
     {
+        
         if(a[i]==a[vitri])
         {
             dem++;
         }
     }
     return dem;
+}
+
+void LietKeCacGiaTriXuatHien1Lan(int a[], int n)
+{
+    int i;
+   
+    
+    for(i=0;i<n;i++)
+    {
+        int check= TimVitriTrung(a,n,i);
+        if(check==1)
+        {
+            int dem = DemSoPTtrung(a, n, i);
+            if(dem==1)
+            {
+                cout<<"\n"<<a[i]<<" xuat hien 1 lan \n";
+            }
+        }
+        
+        
+    }
 }
 
 void LietKeGiaTriXuatHientrongMang1lan(int a[], int n)
@@ -107,6 +129,6 @@ int main(int argc, const char * argv[]) {
     int a[100];
     Nhap(a, n);
     In(a, n);
-    LietKeGiaTriXuatHientrongMang1lan(a, n);
+    LietKeCacGiaTriXuatHien1Lan(a, n);
     return 0;
 }

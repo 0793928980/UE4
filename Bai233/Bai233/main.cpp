@@ -45,6 +45,8 @@ int KTVitriTrung(int a[], int n, int vitri)
     return 1;
 }
 
+
+
 int DemSoluonTrung(int a[], int n, int vitri)
 {
     int i;
@@ -58,6 +60,27 @@ int DemSoluonTrung(int a[], int n, int vitri)
     }
     return dem;
 }
+int Demsoluongtrung(int a[], int n)
+{
+    int i,j;
+    int dem=0;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            if(a[i] == a[j])
+            {
+                if(i<=j)
+                {
+                    dem++;
+                }else{
+                    break;
+                }
+            }
+        }
+    }
+    return dem;
+}
 
 void LietKeTansuatXuathien1lan(int a[], int n)
 {
@@ -67,7 +90,7 @@ void LietKeTansuatXuathien1lan(int a[], int n)
         int check=KTVitriTrung(a, n, i);
         if(check==1)
         {
-            int dem=DemSoluonTrung(a, n, i);
+            int dem=Demsoluongtrung(a, n);
             cout<<"\nPhan tu "<<a[i]<<" xuat hien "<<dem<<"\n";
             
         }
@@ -112,6 +135,7 @@ int main(int argc, const char * argv[]) {
     int a[100];
     Nhap(a, n);
     In(a, n);
+    LietKeTansuatXuathien1lan(a, n);
     LietKetansuatxuathienduynhat1lan(a, n);
     return 0;
 }
